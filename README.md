@@ -1,0 +1,1 @@
+##Value object based image upload solution.
