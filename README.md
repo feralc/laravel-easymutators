@@ -150,7 +150,41 @@ And finally you should add a disk to `app/config/filesystems.php`. This would be
 
 ## Basic usage
 
-First you should use the EasyMutatorsTrait on your model and set the mutations fields:
+Let's use the User class as an example. First you should create fields on your database. 
+Using migrations, you can do this on your users table to create an profile_photo field 
+which will be used to store the users profile photo.
+
+```php
+class CreateUsersTable extends Migration
+{
+
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('users', function (Blueprint $table) {
+            
+            $table->increments('id');
+            $table->string('name');
+            $table->string('email')->unique();
+            $table->string('password');
+            
+            //If you are using MySQL 5.7 you can use JSON column type instead of text
+            $table->text('profile_photo')->nullable()->default(null);
+            
+            $table->rememberToken();
+            $table->timestamps();
+        });
+    }
+
+    ...
+}
+```
+
+Now you should use the EasyMutatorsTrait on your model and set the mutations fields:
 
 ```php
 ...
@@ -186,6 +220,10 @@ $user->profile_photo = $request->file('photo');
 
 //Or directly from an URL
 $user->profile_photo = 'http://anyresourceurl/some_image.jpg';
+
+//And save the user in database
+$user->save();
+
 ```
 
 ## Handling image conversions
