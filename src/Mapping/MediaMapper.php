@@ -31,6 +31,10 @@ class MediaMapper
 
     public function file($name)
     {
+        if ($this->hasMapping($name)) {
+            return $this->findMapping($name);
+        }
+
         $mapping = new FileMapping($this);
 
         $mapping->setKey($name);
@@ -42,6 +46,10 @@ class MediaMapper
 
     public function image($name)
     {
+        if ($this->hasMapping($name)) {
+            return $this->findMapping($name);
+        }
+
         $mapping = new ImageMapping($this);
 
         $mapping->setKey($name);
@@ -59,6 +67,11 @@ class MediaMapper
     public function findMapping($key)
     {
         return $this->mappings->get($key);
+    }
+
+    public function hasMapping($key)
+    {
+        return !! $this->findMapping($key);
     }
 
     public function baseUploadDir($dirName)
@@ -106,6 +119,10 @@ class MediaMapper
 
     public function mapByClass($name, $class)
     {
+        if ($this->hasMapping($name)) {
+            return $this->findMapping($name);
+        }
+
         $mappingClass = $this->mediaClassMappings[$class];
 
         $mapping = new $mappingClass($this);
