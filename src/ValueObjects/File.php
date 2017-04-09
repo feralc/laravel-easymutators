@@ -61,7 +61,8 @@ class File extends ValueObject
             'basePath' => $this->basePath,
             'size' => $this->size,
             'extension' => $this->extension,
-            'mimeType' => $this->mimeType
+            'mimeType' => $this->mimeType,
+            'url' => $this->url()
         ];
     }
 
