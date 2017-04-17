@@ -94,7 +94,7 @@ trait EasyMutatorsTrait
             return $value;
         }
 
-        if (empty($value)) {
+        if ($value === null) {
             return null;
         }
 

@@ -23,7 +23,7 @@ class Settings extends ValueObject implements Arrayable, Jsonable, ArrayAccess
             $this->settings = $settings;
         } elseif (is_string($settings) && ! is_null($settings)) {
             $this->settings = json_decode($settings, true);
-            $this->settings = $this->settings ?? [];
+            $this->settings = $this->settings ? $this->settings : [];
         }
     }
 
@@ -77,6 +77,21 @@ class Settings extends ValueObject implements Arrayable, Jsonable, ArrayAccess
         return json_encode($this->toArray(), $options);
     }
 
+    public function asBool($key)
+    {
+        return filter_var($this->get($key), FILTER_VALIDATE_BOOLEAN);
+    }
+
+    public function asInteger($key)
+    {
+        return intval($this->get($key));
+    }
+
+    public function asDouble($key)
+    {
+        return doubleval($this->get($key));
+    }
+
     /**
      * Get the instance as an array.
      *
@@ -89,7 +104,7 @@ class Settings extends ValueObject implements Arrayable, Jsonable, ArrayAccess
 
     public static function column(Blueprint $table)
     {
-        $table->json('settings')->nullable();
+        $table->json('settings')->nullable()->default(null);
     }
 
     public function __get($key)
