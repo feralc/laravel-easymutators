@@ -2,9 +2,8 @@
 
 namespace Webeleven\EasyMutators\Upload;
 
-use Illuminate\Http\File;
 use InvalidArgumentException;
-use Symfony\Component\HttpFoundation\File\File as SymfonyFile;
+use Symfony\Component\HttpFoundation\File\File;
 
 class TempFileUploader
 {
@@ -26,7 +25,7 @@ class TempFileUploader
     private function normalizeFile($file)
     {
 
-        if ($file instanceof SymfonyFile) {
+        if ($file instanceof File) {
 
             return new File($file->getRealPath());
 

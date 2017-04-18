@@ -3,9 +3,9 @@
 namespace Webeleven\EasyMutators;
 
 use Illuminate\Contracts\Filesystem\Filesystem;
-use Illuminate\Http\File;
 use Intervention\Image\ImageManager;
 use InvalidArgumentException;
+use Symfony\Component\HttpFoundation\File\File;
 use Webeleven\EasyMutators\ValueObjects\File as EasyFile;
 use Webeleven\EasyMutators\Mapping\FileMapping;
 use Webeleven\EasyMutators\Mapping\ImageMapping;
@@ -59,7 +59,7 @@ class MediaService
         $mediaFile->path = $filepath->full();
         $mediaFile->basePath = $filepath->base();
         $mediaFile->size = $file->getSize();
-        $mediaFile->extension = $file->extension();
+        $mediaFile->extension = $file->guessExtension();
         $mediaFile->mimeType = $file->getMimeType();
 
         return $mediaFile;
@@ -67,7 +67,7 @@ class MediaService
 
     protected function makeImage(File $file, ImageMapping $mapping)
     {
-        $size = getimagesize($file->path());
+        $size = getimagesize($file->getRealPath());
 
         if (! $size) {
             throw new InvalidArgumentException('The given file is not an image.');
@@ -111,7 +111,7 @@ class MediaService
         $image->height = $interventionImage->height();
         $image->path = $filepath->full();
         $image->basePath = $filepath->base();
-        $image->extension = $file->extension();
+        $image->extension = $file->guessExtension();
         $image->mimeType = $file->getMimeType();
 
         return $image;
@@ -132,7 +132,7 @@ class MediaService
     {
         $image = $this->intervention->make($file);
 
-        $image->extension = $file->extension();
+        $image->extension = $file->guessExtension();
 
         return $image;
     }

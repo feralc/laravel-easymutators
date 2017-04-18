@@ -2,8 +2,8 @@
 
 namespace Webeleven\EasyMutators\Upload;
 
-use Illuminate\Http\File;
 use Intervention\Image\Image as InterventionImage;
+use Symfony\Component\HttpFoundation\File\File;
 use Webeleven\EasyMutators\Mapping\FileMapping;
 use Webeleven\EasyMutators\Mapping\ImageMapping;
 

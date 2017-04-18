@@ -2,8 +2,8 @@
 
 namespace Webeleven\EasyMutators\Upload;
 
-use Illuminate\Http\File;
 use Intervention\Image\Image as InterventionImage;
+use Symfony\Component\HttpFoundation\File\File;
 use Webeleven\EasyMutators\Mapping\FileMapping;
 use Webeleven\EasyMutators\Mapping\ImageMapping;
 
@@ -14,7 +14,7 @@ class DefaultPathGenerator implements PathGenerator
     {
         return new FilePath(
             $mapping->getMapper()->getBaseUploadDir(),
-            sprintf('%s.%s', $mapping->getFileName(), $file->extension())
+            sprintf('%s.%s', $mapping->getFileName(), $file->guessExtension())
         );
     }
 
