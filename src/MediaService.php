@@ -101,7 +101,7 @@ class MediaService
 
         $filepath = $this->getFilepath($interventionImage, $mapping);
 
-        $this->storage->put($filepath->full(), $interventionImage->encode(null, $mapping->getQuality()));
+        $this->storage->put($filepath->full(), $interventionImage->encode(null, $mapping->getQuality())->getEncoded());
 
         $image = new Image;
         $image->name = $mapping->getFileName();
