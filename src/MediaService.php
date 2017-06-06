@@ -38,6 +38,10 @@ class MediaService
     public function makeMedia($file, $mapping)
     {
         $file = $this->tempFileUploader->getTempFile($file);
+        
+        if (! $file) {
+            return null;
+        }
 
         if ($mapping instanceof ImageMapping) {
             return $this->makeImage($file, $mapping);
