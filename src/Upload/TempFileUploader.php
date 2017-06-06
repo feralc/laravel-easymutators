@@ -2,7 +2,6 @@
 
 namespace Webeleven\EasyMutators\Upload;
 
-use InvalidArgumentException;
 use Symfony\Component\HttpFoundation\File\File;
 
 class TempFileUploader
@@ -29,7 +28,7 @@ class TempFileUploader
 
             return new File($file->getRealPath());
 
-        } else if (is_string($file)) {
+        } else if (is_string($file) && filter_var($file, FILTER_VALIDATE_URL)) {
 
             $path = $this->getNewTempFileName();
 
@@ -40,7 +39,7 @@ class TempFileUploader
             return new File($path);
         }
 
-        throw new InvalidArgumentException('Invalid media type');
+        return null;
     }
 
 }
