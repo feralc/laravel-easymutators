@@ -21,6 +21,13 @@
       "tests"
     ]
   },
+  "extra": {
+      "laravel": {
+          "providers": [
+              "Webeleven\\EasyMutators\\EasyMutatorsServiceProvider"
+          ]
+      }
+  },
   "authors": [
     {
       "name": "Felipe",
