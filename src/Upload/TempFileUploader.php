@@ -37,9 +37,51 @@ class TempFileUploader
             file_put_contents($path, $data);
 
             return new File($path);
+        } else if ($this->isBase64Image($file)){
+            $path = $this->getNewTempFileName();
+
+            $data = base64_decode($this->sanitizeBase64Image($file));
+
+            file_put_contents($path, $data);
+
+            return new File($path);
         }
 
         return null;
+    }
+
+    public function sanitizeBase64Image($file)
+    {
+        return str_replace("data:image/svg;base64,", "", str_replace("data:image/jpg;base64,", "", str_replace("data:image/png;base64,", "", $file)));
+    }
+
+    public function isBase64Image($file)
+    {
+
+        $explode = explode(',', $file);
+        $allow = ['png', 'jpg', 'svg'];
+        $format = str_replace(
+            [
+                'data:image/',
+                ';',
+                'base64',
+            ],
+            [
+                '', '', '',
+            ],
+            $explode[0]
+        );
+        // check file format
+        if (!in_array($format, $allow)) {
+            return false;
+        }
+        // check base64 format
+        if (!preg_match('%^[a-zA-Z0-9/+]*={0,2}$%', $explode[1])) {
+            return false;
+        }
+        return true;
+
+
     }
 
 }
