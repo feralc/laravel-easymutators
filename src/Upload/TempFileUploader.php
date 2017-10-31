@@ -52,14 +52,14 @@ class TempFileUploader
 
     public function sanitizeBase64Image($file)
     {
-        return str_replace("data:image/svg;base64,", "", str_replace("data:image/jpg;base64,", "", str_replace("data:image/png;base64,", "", $file)));
+        return str_replace("data:svg+xml/svg;base64,", "", str_replace("data:image/svg;base64,", "", str_replace("data:image/jpeg;base64,", "", str_replace("data:image/jpg;base64,", "", str_replace("data:image/png;base64,", "", $file)))));
     }
 
     public function isBase64Image($file)
     {
 
         $explode = explode(',', $file);
-        $allow = ['png', 'jpg', 'svg'];
+        $allow = ['png', 'jpg', 'jpeg', 'svg', 'svg+xml'];
         $format = str_replace(
             [
                 'data:image/',
