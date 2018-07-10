@@ -26,7 +26,7 @@ class TempFileUploader
 
         if ($file instanceof File) {
 
-            return new File($file->getRealPath());
+            return $file;
 
         } else if (is_string($file) && filter_var($file, FILTER_VALIDATE_URL)) {
 
