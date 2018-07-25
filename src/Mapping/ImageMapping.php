@@ -23,6 +23,8 @@ class ImageMapping extends FileMapping
     protected $quality = 100;
 
     protected $conversion = false;
+    
+    protected $fit = [];
 
     public function __construct(MediaMapper $mapper)
     {
@@ -104,6 +106,22 @@ class ImageMapping extends FileMapping
     public function shouldKeepAspectRatio()
     {
         return $this->aspectRatio;
+    }
+    
+    public function fit($width, $height)
+    {
+        $this->fit = [$width, $height];
+        return $this;
+    }
+
+    public function shouldFit()
+    {
+        return ! empty($this->fit);
+    }
+
+    public function getFit()
+    {
+        return $this->fit;
     }
 
     public function shouldResize()
