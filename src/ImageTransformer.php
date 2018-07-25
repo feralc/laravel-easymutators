@@ -28,6 +28,11 @@ class ImageTransformer
                 $mapping->getCanvasHeight()
             );
         }
+        
+        if ($mapping->shouldFit()) {
+            list($width, $height) = $mapping->getFit();
+            $image->fit($width, $height);
+        }
 
         return $image;
     }
